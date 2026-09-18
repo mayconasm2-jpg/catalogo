@@ -34,7 +34,8 @@ export default function Page(){
  const count=cart.reduce((a,i)=>a+i.quantity,0), total=cart.reduce((a,i)=>a+i.price*i.quantity,0)
  const filtered=products.filter(p=>(category==='Todos'||p.category===category)&&p.name.toLowerCase().includes(query.toLowerCase()))
  return <div className="min-h-screen bg-[#f7f7f8] text-[#303846]">
-  <header className="site-header"><div className="mx-auto flex h-[72px] max-w-[1280px] items-center justify-center px-4 lg:px-8">
+  <div className="storefront-top">
+  <header className="site-header"><div className="mx-auto flex h-[72px] max-w-[1650px] items-center justify-center px-4 lg:px-8">
    <nav className="hidden items-center gap-24 md:flex"><button className="nav-active"><Store size={17}/>Início</button><button onClick={()=>{setCategory('Promoções');document.getElementById('produtos')?.scrollIntoView()}} className="nav-item"><Heart size={17}/>Promoções</button><button onClick={()=>setBag(true)} className="nav-item relative"><ShoppingBag size={17}/>Pedidos {count>0&&<b className="badge">{count}</b>}</button><button onClick={()=>setInfo(true)} className="nav-item"><CircleUserRound size={17}/>Entrar/Cadastrar</button></nav>
    <button onClick={()=>setBag(true)} aria-label="Abrir sacola" className="relative rounded-full p-3 text-[#e7795b] md:hidden"><ShoppingBag size={22}/>{count>0&&<b className="badge -right-1 -top-1">{count}</b>}</button>
   </div></header>
@@ -46,7 +47,8 @@ export default function Page(){
     <section><div className="mb-4 flex items-center justify-between"><h3 className="section-title">Destaques</h3><div className="hidden gap-2 sm:flex"><button className="circle-btn"><ArrowLeft size={17}/></button><button className="circle-btn"><ArrowRight size={17}/></button></div></div><div className="featured-row">{products.slice(0,3).map(p=><FeaturedCard key={p.id} product={p} onClick={()=>setSelected(p)}/>)}</div></section>
     {['Promoções','Eletrônicos','Moda','Acessórios','Beleza','Casa'].map(cat=>{const items=filtered.filter(p=>p.category===cat||(cat==='Promoções'&&p.oldPrice)); if(!items.length)return null;return <section key={cat} className="mt-10"><h3 className="section-title mb-4">{cat}</h3><div className="product-grid">{items.map(p=><ProductCard key={p.id} product={p} onClick={()=>setSelected(p)}/>)}</div></section>})}
    </div><aside className="hidden lg:block"><CartPanel cart={cart} total={total} onBag={()=>setBag(true)} onChange={setCart}/></aside></div>
-  </main><footer><div>Vitrine Mix · 2026. Todos os direitos reservados</div><div>Atendimento via WhatsApp · (11) 99999-9999</div></footer>
+  </main>
+  </div><footer><div>Vitrine Mix · 2026. Todos os direitos reservados</div><div>Atendimento via WhatsApp · (11) 99999-9999</div></footer>
   {toast&&<div className="toast"><Check size={18}/>{toast}</div>}
   {selected&&<ProductModal product={selected} onClose={()=>setSelected(null)} onAdd={add}/>} {bag&&<BagOverlay cart={cart} total={total} onClose={()=>setBag(false)} onChange={setCart} onCheckout={()=>{setBag(false);setCheckout(true)}}/>}{checkout&&<Checkout cart={cart} total={total} onClose={()=>setCheckout(false)}/>} {info&&<InfoModal onClose={()=>setInfo(false)}/>} 
  </div>
